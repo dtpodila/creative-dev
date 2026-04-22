@@ -59,13 +59,22 @@ export default function NotificationsPage() {
               </select>
             )}
 
+            {/* Info about native messaging */}
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-gray-700">
+              <p className="font-semibold mb-1">📱 Native Messaging</p>
+              <p className="text-xs text-gray-600">
+                Bills are now sent directly through your device's SMS or WhatsApp app. 
+                Notification history is not tracked server-side.
+              </p>
+            </div>
+
             {loadingNot ? (
               <div className="flex justify-center py-10">
                 <div className="animate-spin w-6 h-6 border-4 border-blue-600 border-t-transparent rounded-full" />
               </div>
             ) : notifications.length === 0 ? (
-              <div className="text-center py-16 text-gray-400">
-                <p>No notifications sent for this bill yet.</p>
+              <div className="text-center py-10 text-gray-400">
+                <p>No previous notification records found.</p>
               </div>
             ) : (
               notifications.map((n) => (

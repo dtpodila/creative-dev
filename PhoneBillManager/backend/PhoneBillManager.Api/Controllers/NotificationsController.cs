@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PhoneBillManager.Api.DTOs.Notifications;
 using PhoneBillManager.Api.Services.Interfaces;
 
 namespace PhoneBillManager.Api.Controllers;
@@ -15,23 +14,11 @@ public class NotificationsController : ControllerBase
 
     public NotificationsController(INotificationService notifications) => _notifications = notifications;
 
-    [HttpPost("send/{billId:int}")]
-    public async Task<IActionResult> SendBill(int billId, [FromBody] SendNotificationRequest request)
-    {
-        var userId = GetUserId();
-        var results = await _notifications.SendBillAsync(billId, userId, request.Channel);
-        return Ok(results);
-    }
-
-    [HttpPost("send-line/{lineId:int}")]
-    public async Task<IActionResult> SendLine(int lineId, [FromBody] SendNotificationRequest request)
-    {
-        var userId = GetUserId();
-        var result = await _notifications.SendLineAsync(lineId, userId, request.Channel);
-        if (result == null) return NotFound(new { message = "Line not found or no contact assigned." });
-        return Ok(result);
-    }
-
+    /// <summary>
+    /// Get notification history for a bill.
+    /// Note: New bills sent via native device apps (SMS/WhatsApp) won't appear here.
+    /// This endpoint only returns historical notifications sent via the old Twilio integration.
+    /// </summary>
     [HttpGet("{billId:int}")]
     public async Task<IActionResult> GetNotifications(int billId)
     {

@@ -159,6 +159,7 @@ export default function BillDetailPage() {
       )}
       {sendingLineId !== null && (
         <SendBillModal
+          billId={billId}
           lineId={sendingLineId}
           onClose={() => setSendingLineId(null)}
           onSent={(r) => setSentResults(r)}
